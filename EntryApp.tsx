@@ -16,7 +16,7 @@ const EntryApp: FunctionComponent = () => {
    return (
       <NavigationContainer>
          <Stack.Navigator
-            initialRouteName='Tutorial' // storage.firstAccess ? 'Tutorial' : 'Home'
+            initialRouteName='Home' // storage.firstAccess ? 'Tutorial' : 'Home'
          >
             <Stack.Screen
                name='Home'
