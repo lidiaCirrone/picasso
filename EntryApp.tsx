@@ -1,8 +1,8 @@
 import React, { FunctionComponent } from 'react';
 
 // components
-import Home from '../../screens/Home';
-import Tutorial from '../../screens/Tutorial';
+import Home from './screens/Home';
+import Tutorial from './screens/Tutorial';
 
 // modules
 import { createStackNavigator } from '@react-navigation/stack';

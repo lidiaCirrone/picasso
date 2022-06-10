@@ -2,7 +2,7 @@ import { StatusBar } from 'expo-status-bar';
 
 // components
 import { SafeAreaView } from 'react-native';
-import EntryApp from './components/hookComponents/EntryApp';
+import EntryApp from './EntryApp';
 
 // styles
 import styleApp from './styles/styleApp';
