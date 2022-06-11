@@ -18,6 +18,10 @@ const styleCanvas = StyleSheet.create({
    },
    editContainer: {
       backgroundColor: '#efefef'
+   },
+   icons: {
+      color:'#007AFF',
+      fontSize : 30
    }
 })
 

@@ -1,6 +1,6 @@
 import React, { useRef, useState } from "react";
 // components 
-import { View, Button } from "react-native";
+import { Dimensions, View } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import SignatureScreen, {
   SignatureViewRef,
@@ -20,7 +20,8 @@ const Canvas = () => {
   const [state, setState] = useState({
     editSize: false,
     editColor: false,
-    sizePen: 1
+    sizePen: 1,
+    urlImg: null
   })
 
   // function to clear all file 
@@ -79,22 +80,60 @@ const Canvas = () => {
     ref.current?.undo()
   }
 
+  // function to draw 
+  const handleSignature = () => {
+    ref.current?.draw();
+  };
+
+  // function to save 
+  const save = () => {
+    console.log("end");
+    ref.current?.readSignature();
+  };
+  const handleOK = (signature: any) => {
+    setState({
+      ...state,
+      urlImg: signature
+    })
+    console.log(signature);
+  };
 
   return (
     <View style={styleCanvas.container}>
 
       {/* top editor  */}
       <View style={styleCanvas.row}>
-        <Button title="Clear all " onPress={handleClear} />
-        <Button title="eraser" onPress={erase} />
-        <Button title="add photo" onPress={() => console.log('pressed')} />
-        <Button title="save" onPress={() => console.log('pressed')} />
+        {/* <Button title="Clear all " onPress={handleClear} /> */}
+        <TouchableOpacity onPress={handleClear}>
+          <Ionicons style={styleCanvas.icons} name="basket" />
+        </TouchableOpacity>
+
+        <TouchableOpacity onPress={erase}>
+          <Ionicons style={styleCanvas.icons} name="remove" />
+        </TouchableOpacity>
+
+        <TouchableOpacity onPress={handleSignature}>
+          <Ionicons style={styleCanvas.icons} name="pencil" />
+        </TouchableOpacity>
+
+        <TouchableOpacity onPress={erase}>
+          <Ionicons style={styleCanvas.icons} name="camera" />
+        </TouchableOpacity>
+
+        <TouchableOpacity onPress={save}>
+          <Ionicons style={styleCanvas.icons} name="save" />
+        </TouchableOpacity>
+
       </View>
 
 
       <SignatureScreen
         ref={ref}
         webStyle={styleCssCanvas.styleDraw}
+        onOK={handleOK}
+        bgSrc={state.urlImg ? state.urlImg : undefined}
+        bgHeight={'100%'}
+        bgWidth={'100%'}
       />
 
 
@@ -136,10 +175,24 @@ const Canvas = () => {
 
       {/* bottom editor  */}
       <View style={styleCanvas.row}>
-        <Button title="redo" onPress={redo} />
-        <Button title="undo" onPress={undo} />
-        <Button title="change color" onPress={handleEditColor} />
-        <Button title="change size" onPress={handleEditSize} />
+
+        <TouchableOpacity onPress={redo}>
+          <Ionicons style={styleCanvas.icons} name="arrow-redo" />
+        </TouchableOpacity>
+
+        <TouchableOpacity onPress={undo}>
+          <Ionicons style={styleCanvas.icons} name="arrow-undo" />
+        </TouchableOpacity>
+
+        <TouchableOpacity onPress={handleEditColor}>
+          <Ionicons style={styleCanvas.icons} name="color-palette" />
+        </TouchableOpacity>
+
+
+        <TouchableOpacity onPress={handleEditSize}>
+          <Ionicons style={styleCanvas.icons} name="pencil" />
+        </TouchableOpacity>
+
       </View>
     </View>
   );
