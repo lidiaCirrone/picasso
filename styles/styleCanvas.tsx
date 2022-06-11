@@ -1,12 +1,35 @@
-import { Dimensions } from 'react-native';
-let heightDevice = Dimensions.get('window').height
-export default {
-   container: `.m-signature-pad {
-      flex:1;
-      font-size: 10px;
-      height: ${heightDevice};
-      border: 1px solid #e8e8e8;
-      background-color: #fff;
-      box-shadow: 0 1px 4px rgba(0, 0, 0, 0.27), 0 0 40px rgba(0, 0, 0, 0.08) inset;
-    }`
+import { Dimensions, StyleSheet } from 'react-native';
+
+const styleCanvas = StyleSheet.create({
+   container: {
+      flex: 1,
+      width: Dimensions.get('screen').width,
+   },
+   row: {
+      flexDirection: "row",
+      justifyContent: "space-around",
+      alignItems: "center",
+      height: 100,
+      backgroundColor: 'black'
+   },
+   editColor: {
+      flex: 1,
+      padding: 20
+   },
+   editContainer: {
+      backgroundColor: '#efefef'
+   }
+})
+
+const styleCssCanvas = {
+   styleDraw: `
+  .m-signature-pad {
+    position:absolute;
+  }
+ 
+  .m-signature-pad--footer {display: none; margin: 0px;} 
+ `
+
 }
+
+export {styleCanvas,styleCssCanvas}
