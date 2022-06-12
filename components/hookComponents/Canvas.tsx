@@ -113,11 +113,11 @@ const Canvas = () => {
          {/* top editor  */}
          <View style={styleCanvas.row}>
 
-            <TouchableOpacity onPress={redo}>
+            <TouchableOpacity onPress={undo}>
                <MaterialCommunityIcons style={styleCanvas.icons} name="undo" />
             </TouchableOpacity>
 
-            <TouchableOpacity onPress={undo}>
+            <TouchableOpacity onPress={redo}>
                <MaterialCommunityIcons style={styleCanvas.icons} name="redo" />
             </TouchableOpacity>
 
