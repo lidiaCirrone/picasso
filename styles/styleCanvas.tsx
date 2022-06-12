@@ -14,7 +14,8 @@ const styleCanvas = StyleSheet.create({
    },
    editColor: {
       flex: 1,
-      padding: 20
+      padding: 20,
+      marginBottom: 100
    },
    editContainer: {
       backgroundColor: '#efefef'
