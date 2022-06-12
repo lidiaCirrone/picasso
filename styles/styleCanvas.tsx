@@ -9,19 +9,23 @@ const styleCanvas = StyleSheet.create({
       flexDirection: "row",
       justifyContent: "space-around",
       alignItems: "center",
-      height: 100,
+      height: 70,
       backgroundColor: 'black'
    },
    editColor: {
       flex: 1,
       padding: 20,
-      marginBottom: 100
+      marginBottom: 20
    },
    editContainer: {
       backgroundColor: '#efefef'
    },
    icons: {
       color:'#007AFF',
+      fontSize : 30
+   },
+   iconsSelected: {
+      color:'#fff',
       fontSize : 30
    }
 })

@@ -21,7 +21,8 @@ const Canvas = () => {
       editSize: false,
       editColor: false,
       sizePen: 1,
-      urlImg: null
+      urlImg: null,
+      isDrawing: true
    })
 
    // function to clear all file 
@@ -67,7 +68,11 @@ const Canvas = () => {
    }
    // function to eraser
    const erase = () => {
-      ref.current?.erase()
+      ref.current?.erase();
+      setState({
+         ...state,
+         isDrawing: false
+      })
    }
 
    // function to redo 
@@ -83,6 +88,10 @@ const Canvas = () => {
    // function to draw 
    const handleSignature = () => {
       ref.current?.draw();
+      setState({
+         ...state,
+         isDrawing: true
+      })
    };
 
    // function to save 
@@ -103,17 +112,18 @@ const Canvas = () => {
 
          {/* top editor  */}
          <View style={styleCanvas.row}>
+
+            <TouchableOpacity onPress={redo}>
+               <MaterialCommunityIcons style={styleCanvas.icons} name="undo" />
+            </TouchableOpacity>
+
+            <TouchableOpacity onPress={undo}>
+               <MaterialCommunityIcons style={styleCanvas.icons} name="redo" />
+            </TouchableOpacity>
+
             {/* <Button title="Clear all " onPress={handleClear} /> */}
             <TouchableOpacity onPress={handleClear}>
                <MaterialCommunityIcons style={styleCanvas.icons} name="trash-can" />
-            </TouchableOpacity>
-
-            <TouchableOpacity onPress={erase}>
-               <MaterialCommunityIcons style={styleCanvas.icons} name="eraser" />
-            </TouchableOpacity>
-
-            <TouchableOpacity onPress={handleSignature}>
-               <MaterialCommunityIcons style={styleCanvas.icons} name="pencil" />
             </TouchableOpacity>
 
             <TouchableOpacity onPress={erase}>
@@ -176,18 +186,21 @@ const Canvas = () => {
          {/* bottom editor  */}
          <View style={styleCanvas.row}>
 
-            <TouchableOpacity onPress={redo}>
-               <MaterialCommunityIcons style={styleCanvas.icons} name="undo" />
+            <TouchableOpacity onPress={erase}>
+               <MaterialCommunityIcons
+                  style={[styleCanvas.icons, !state.isDrawing ? styleCanvas.iconsSelected : styleCanvas.icons]}
+                  name="eraser" />
             </TouchableOpacity>
 
-            <TouchableOpacity onPress={undo}>
-               <MaterialCommunityIcons style={styleCanvas.icons} name="redo" />
+            <TouchableOpacity onPress={handleSignature}>
+               <MaterialCommunityIcons
+                  style={[styleCanvas.icons, state.isDrawing ? styleCanvas.iconsSelected : styleCanvas.icons]}
+                  name="pencil" />
             </TouchableOpacity>
 
             <TouchableOpacity onPress={handleEditColor}>
                <MaterialCommunityIcons style={styleCanvas.icons} name="palette" />
             </TouchableOpacity>
-
 
             <TouchableOpacity onPress={handleEditSize}>
                <Ionicons style={styleCanvas.icons} name="options" />
