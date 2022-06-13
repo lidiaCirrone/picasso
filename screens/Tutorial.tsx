@@ -16,18 +16,13 @@ const Tutorial: FunctionComponent<TutorialProps> = (props): JSX.Element => {
    console.log(props?.route?.params?.url)
    return (
       <>
-         {/* <View style={{ backgroundColor: 'white', flex: 1}}>
-            <Text>Screen Tutorial</Text>
-            <SliderTutorial sliderArray={tutorialInfo} />
-           
-         </View> */}
-          <Image
-               style={{flex:1}}
-               width={Dimensions.get('screen').width}
-               height={Dimensions.get('screen').height}
-               source={{ uri: props?.route?.params?.url }}
+         <Image
+            // resizeMode="contain"
+            style={{ width:200,height:300}}
+            source={{ uri: props?.route?.params?.url }}
 
-            />
+         />
+
       </>
    )
 }
