@@ -37,6 +37,9 @@ const styleCssCanvas = {
   }
  
   .m-signature-pad--footer {display: none; margin: 0px;} 
+
+  body,html {
+   width: ${Dimensions.get('screen').width}px; height: ${Dimensions.get('screen').height}px;}
  `
 
 }
