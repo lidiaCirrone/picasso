@@ -1,6 +1,7 @@
 import React, { FunctionComponent } from 'react';
 
 // components
+import Gallery from './screens/Gallery';
 import Home from './screens/Home';
 import Tutorial from './screens/Tutorial';
 
@@ -25,6 +26,10 @@ const EntryApp: FunctionComponent = () => {
             <Stack.Screen
                name='Tutorial'
                component={Tutorial}
+            />
+            <Stack.Screen
+               name='Gallery'
+               component={Gallery}
             />
          </Stack.Navigator>
       </NavigationContainer>
