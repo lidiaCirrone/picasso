@@ -12,7 +12,7 @@ import Canvas from '../components/hookComponents/Canvas';
 
 const Home: FunctionComponent<HomeProps> = (props): JSX.Element => {
    const goTo = (signature: string) => () => {
-      props.navigation.navigate('Tutorial', {url: signature })
+      props.navigation.navigate('Gallery', {url: signature })
    }
    return (
       <Canvas
