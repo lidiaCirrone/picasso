@@ -1,36 +1,27 @@
 import { FunctionComponent } from 'react';
 
 // components
-import { Dimensions, Image, ImageBackground, Text, View } from 'react-native';
 import SliderTutorial from '../components/hookComponents/SliderTutorial';
 
 // utils
 import { tutorialInfo } from '../utils/tutorialInfo';
 
 import { ParamListBase, RouteProp } from '@react-navigation/native';
+import { Text, View } from 'react-native';
 
 interface TutorialProps {
-   route: RouteProp<ParamListBase>;
+    route: RouteProp<ParamListBase>;
 }
-const Tutorial: FunctionComponent<TutorialProps> = (props): JSX.Element => {
-   console.log(props?.route?.params?.url)
-   return (
-      <>
-         {/* <ImageBackground
-            source={{ uri: props?.route?.params?.bgImage }}
-            style={{ width: 200, height: 300 }}
-         > */}
+const Tutorial: FunctionComponent<TutorialProps> = (): JSX.Element => {
+    return (
+        <>
+            <View style={{ backgroundColor: 'white', flex: 1 }}>
+                <Text>Screen Tutorial</Text>
+                <SliderTutorial sliderArray={tutorialInfo} />
 
-            <Image
-               // resizeMode="contain"
-               style={{ width: 200, height: 300 }}
-               source={{ uri: props?.route?.params?.url }}
-
-            />
-         {/* </ImageBackground> */}
-
-      </>
-   )
+            </View>
+        </>
+    )
 }
 
 export default Tutorial;
