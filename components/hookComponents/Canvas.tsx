@@ -5,6 +5,7 @@ import { View } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import SignatureScreen, { SignatureViewRef } from "react-native-signature-canvas";
 
+import { captureRef } from 'react-native-view-shot';
 import Slider from '@react-native-community/slider';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import ColorPicker from 'react-native-wheel-color-picker';
@@ -14,14 +15,15 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { styleCanvas, styleCssCanvas } from "../../styles/styleCanvas";
 
 
-const Canvas = () => {
+const Canvas = (props: any) => {
    const ref = useRef<SignatureViewRef>(null);
-   const refColor: any = useRef()
+   const refColor: any = useRef();
+   const canvasRef: any = useRef();
    const [state, setState] = useState({
       editSize: false,
       editColor: false,
       sizePen: 1,
-      urlImg: null,
+      urlImg: undefined,
       isDrawing: true
    })
 
@@ -29,11 +31,6 @@ const Canvas = () => {
    const handleClear = () => {
       ref.current?.clearSignature();
    };
-
-   // const handleConfirm = () => {
-   //    console.log("end");
-   //    ref.current?.readSignature();
-   // };
 
    // function to change size of pen 
    const changeSize = (value: number) => {
@@ -66,6 +63,7 @@ const Canvas = () => {
          editColor: !state.editColor
       })
    }
+
    // function to eraser
    const erase = () => {
       ref.current?.erase();
@@ -99,12 +97,19 @@ const Canvas = () => {
       console.log("end");
       ref.current?.readSignature();
    };
-   const handleOK = (signature: any) => {
-      setState({
-         ...state,
-         urlImg: signature
-      })
-      console.log(signature);
+   const handleOK = async (signature: any) => {
+      // setState({
+      //    ...state,
+      //    urlImg: signature
+      // })
+      const result = await captureRef(canvasRef, {
+         result: 'data-uri',
+         // height: pixels,
+         // width: pixels,
+         // quality: 1,
+         // format: 'png',
+      });
+      props.callback(result)()
    };
 
    return (
@@ -136,15 +141,20 @@ const Canvas = () => {
 
          </View>
 
+         <View ref={canvasRef} style={{ flex: 1 }}>
+            <SignatureScreen
+               ref={ref}
+               webStyle={styleCssCanvas.styleDraw}
+               onOK={handleOK}
+               bgSrc={state.urlImg ? state.urlImg : 'https://it.seaicons.com/wp-content/uploads/2015/07/Homer-Simpson-02-Donut-icon.png'}
+               // backgroundColor={'red'}
+               // bgSrc={'https://it.seaicons.com/wp-content/uploads/2015/07/Homer-Simpson-02-Donut-icon.png'}
+               bgHeight={'100%'}
+               bgWidth={'100%'}
+               // dataURL={state.urlImg ? state.urlImg : ""}
+            />
+         </View>
 
-         <SignatureScreen
-            ref={ref}
-            webStyle={styleCssCanvas.styleDraw}
-            onOK={handleOK}
-            bgSrc={state.urlImg ? state.urlImg : undefined}
-            bgHeight={'100%'}
-            bgWidth={'100%'}
-         />
 
 
          {//editor size pen
