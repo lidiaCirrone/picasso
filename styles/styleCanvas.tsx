@@ -21,13 +21,17 @@ const styleCanvas = StyleSheet.create({
       backgroundColor: '#efefef'
    },
    icons: {
-      color:'#007AFF',
-      fontSize : 30
+      color: '#007AFF',
+      fontSize: 30
    },
    iconsSelected: {
-      color:'#fff',
-      fontSize : 30
+      color: '#fff',
+      fontSize: 30
+   },
+   drawing: {
+      width: Dimensions.get('screen').width, height: 300
    }
+
 })
 
 const styleCssCanvas = {
@@ -44,4 +48,4 @@ const styleCssCanvas = {
 
 }
 
-export {styleCanvas,styleCssCanvas}
+export { styleCanvas, styleCssCanvas }
