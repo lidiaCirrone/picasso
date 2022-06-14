@@ -8,9 +8,9 @@ import SignatureScreen, { SignatureViewRef } from "react-native-signature-canvas
 import Slider from '@react-native-community/slider';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import ColorPicker from 'react-native-wheel-color-picker';
-import { MaterialCommunityIcons,MaterialIcons } from '@expo/vector-icons';
+import { MaterialCommunityIcons, MaterialIcons } from '@expo/vector-icons';
 import { Camera, CameraType } from "expo-camera";
-
+import * as ImagePicker from 'expo-image-picker';
 
 // style 
 import { styleCanvas, styleCssCanvas } from "../../styles/styleCanvas";
@@ -18,7 +18,39 @@ import styleModal from '../../styles/styleModal';
 import styleCamera from '../../styles/styleCamera'
 
 // utils permission
-import { _requestCameraPermission } from '../../utils/permissions';
+import { _requestCameraPermission,_requestLibraryPermission } from '../../utils/permissions';
+
+interface State {
+   editSize: boolean,
+   editColor: boolean,
+   sizePen: number,
+   urlImg: undefined | string,
+   isDrawing: boolean,
+   signature: string,
+   saveModalVisible: boolean,
+   cameraPermission: boolean,
+   isCameraOpen: boolean,
+   type: CameraType,
+   libraryPermission: boolean,
+}
+const initialState: State = {
+   editSize: false,
+   editColor: false,
+   sizePen: 1,
+   urlImg: undefined,
+   isDrawing: true,
+   signature: '',
+   saveModalVisible: false,
+   cameraPermission: false,
+   isCameraOpen: false,
+   type: CameraType.back,
+   libraryPermission: false,
+}
+
+
+
+
+
 
 let camera: Camera | null;
 
@@ -31,18 +63,8 @@ const Canvas = (props: any) => {
    const canvasRef: any = useRef();
 
 
-   const [state, setState] = useState({
-      editSize: false,
-      editColor: false,
-      sizePen: 1,
-      urlImg: undefined,
-      isDrawing: true,
-      signature: '',
-      saveModalVisible: false,
-      cameraPermission: false,
-      isCameraOpen: false,
-      type: CameraType.back
-   })
+   const [state, setState] = useState<State>(initialState)
+
 
    // function to clear all file 
    const handleClear = () => {
@@ -155,15 +177,34 @@ const Canvas = (props: any) => {
          base64: true
       }
       const photo = await camera.takePictureAsync(option);
-      console.log('ph', photo.base64);
+
       setState({
          ...state,
          isCameraOpen: false,
          urlImg: `data:image/jpg;base64,${photo.base64}`,
       })
    }
-   const selectPhotoFromGallery = () =>{
-      console.log('file')
+   const selectPhotoFromGallery = async () => {
+      let permission = await _requestLibraryPermission()
+      let obj = Object.assign({}, state)
+      obj.libraryPermission = permission;
+      if (permission) {
+         let result = await ImagePicker.launchImageLibraryAsync({
+            mediaTypes: ImagePicker.MediaTypeOptions.All,
+            allowsEditing: true,
+            // aspect: [4, 3],
+            base64: true,
+            quality: 0.5,
+         });
+
+         console.log(result);
+
+         if (!result.cancelled) {
+            obj.urlImg = `data:image/png;base64,${result.base64}`
+         }
+      }
+      setState(obj)
+
    }
    // if camera is not open 
    if (!state.isCameraOpen)
@@ -199,15 +240,30 @@ const Canvas = (props: any) => {
 
             {/* if signature is not saved and finished */}
             {!state.signature ?
-               <SignatureScreen
-                  ref={ref}
-                  webStyle={styleCssCanvas.styleDraw}
-                  onOK={handleOK}
-                  bgSrc={state.urlImg}
-                  bgWidth={Dimensions.get('screen').width}
-                  bgHeight={Dimensions.get('screen').height}
+               <>
+                  {
+                     state.urlImg &&
+                     <SignatureScreen
+                        ref={ref}
+                        webStyle={styleCssCanvas.styleDraw}
+                        onOK={handleOK}
+                        bgSrc={state.urlImg}
+                        bgWidth={Dimensions.get('screen').width}
+                        bgHeight={'100%'}
 
-               />
+                     />
+                  }
+
+                  {
+                     !state.urlImg &&
+                     <SignatureScreen
+                        ref={ref}
+                        webStyle={styleCssCanvas.styleDraw}
+                        onOK={handleOK}
+                     />
+                  }
+               </>
+
 
                :
 
@@ -216,7 +272,7 @@ const Canvas = (props: any) => {
                      {
                         state.urlImg ?
                            <ImageBackground
-                              style={{ flex: 1 }}
+                              style={{ height: '100%', width: Dimensions.get('screen').width }}
                               source={{ uri: state.urlImg }}
                            >
                               <Image
