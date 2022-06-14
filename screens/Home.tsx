@@ -11,8 +11,8 @@ interface HomeProps {
 import Canvas from '../components/hookComponents/Canvas';
 
 const Home: FunctionComponent<HomeProps> = (props): JSX.Element => {
-   const goTo = (signature: string) => () => {
-      props.navigation.navigate('Gallery', {url: signature })
+   const goTo = () => {
+      props.navigation.navigate('Gallery')
    }
    return (
       <Canvas

@@ -18,6 +18,9 @@ import styleCamera from '../../styles/styleCamera'
 
 // utils permission
 import { _requestCameraPermission, _requestLibraryPermission } from '../../utils/permissions';
+// utils localstorare 
+import { getObjFromLocalStorage, setLocalStorageObj } from '../../utils/localStorage'
+
 
 interface State {
    editSize: boolean,
@@ -58,7 +61,6 @@ const initialState: State = {
 let camera: Camera | null;
 
 const Canvas = (props: any) => {
-
    const ref = useRef<SignatureViewRef>(null);
    // ref to change color 
    const refColor: any = useRef();
@@ -150,15 +152,22 @@ const Canvas = (props: any) => {
 
    // function to take a screenshot 
    const saveCapture = async () => {
-      console.log('click sul bottone');
       let capture = await captureRef(canvasRef.current);
-      props.callback(capture)();
+      let myGallery: any = await getObjFromLocalStorage('images')()
+      let objCapture = {
+         url: capture
+      }
+      myGallery?.push(objCapture)
+      setLocalStorageObj('images', myGallery)()
+
       setState({
          ...state,
          saveModalVisible: false,
          signature: '',
          urlImg: undefined
       })
+      props.callback();
+
    }
 
    // function to open camera 
