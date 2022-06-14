@@ -45,7 +45,8 @@ const Gallery: FunctionComponent<GalleryProps> = (props): JSX.Element => {
    return (
       <>
          <FlatList
-            contentContainerStyle={{ flexDirection: 'row' }}
+            columnWrapperStyle={{ flexWrap: 'wrap' }}
+            numColumns={3}
             data={state?.images}
             style={{ padding: 10 }}
             renderItem={renderImages}>
