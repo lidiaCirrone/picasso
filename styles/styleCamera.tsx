@@ -1,8 +1,8 @@
-import { Dimensions, StyleSheet } from 'react-native';
+import { StyleSheet } from 'react-native';
 
 const styleCamera = StyleSheet.create({
     camera: {
-        flex: 1,
+        flex: 8, // TO-DO: check if suits iOS
     },
     buttonContainer: {
         flex: 1,
@@ -21,4 +21,4 @@ const styleCamera = StyleSheet.create({
     },
 })
 
-export default styleCamera
+export default styleCamera;

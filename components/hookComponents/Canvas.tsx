@@ -273,7 +273,7 @@ const Canvas = (props: any) => {
                   }}>
 
                      {
-                        state.urlImg &&
+                        (state.urlImg && state.widthImg) &&
                         <SignatureScreen
                            ref={ref}
                            webStyle={styleCssCanvas.styleDraw + `
@@ -431,26 +431,30 @@ const Canvas = (props: any) => {
       );
    else {
       return (
-         <Camera ref={(r) => { camera = r }} style={styleCamera.camera} type={state.type}>
-            <View style={styleCamera.buttonContainer}>
-               <TouchableOpacity
-                  style={styleCamera.buttonCamera}
-                  onPress={() => {
-                     setState({
-                        ...state,
-                        type: state.type === CameraType.back ? CameraType.front : CameraType.back
-                     });
-                  }}>
-                  <Text style={styleCamera.text}> Flip </Text>
-               </TouchableOpacity>
+         <>
+            <View style={styleCanvas.row}></View>
+            <Camera ref={(r) => { camera = r }} style={styleCamera.camera} type={state.type}>
+               <View style={styleCamera.buttonContainer}>
+                  <TouchableOpacity
+                     style={styleCamera.buttonCamera}
+                     onPress={() => {
+                        setState({
+                           ...state,
+                           type: state.type === CameraType.back ? CameraType.front : CameraType.back
+                        });
+                     }}>
+                     <Text style={styleCamera.text}> Flip </Text>
+                  </TouchableOpacity>
 
-               <TouchableOpacity
-                  style={styleCamera.buttonCamera}
-                  onPress={takePic}>
-                  <Text style={styleCamera.text}> Take a pic </Text>
-               </TouchableOpacity>
-            </View>
-         </Camera>
+                  <TouchableOpacity
+                     style={styleCamera.buttonCamera}
+                     onPress={takePic}>
+                     <Text style={styleCamera.text}> Take a pic </Text>
+                  </TouchableOpacity>
+               </View>
+            </Camera>
+            <View style={styleCanvas.row}></View>
+         </>
       )
    }
 };
