@@ -1,13 +1,23 @@
 import { FunctionComponent } from 'react';
 
-// components
-import { Text } from 'react-native';
+import { ParamListBase } from '@react-navigation/native';
+import { StackNavigationProp } from '@react-navigation/stack';
 
-const Home: FunctionComponent = (): JSX.Element => {
+interface HomeProps {
+   navigation: StackNavigationProp<ParamListBase>;
+}
+
+// components
+import Canvas from '../components/hookComponents/Canvas';
+
+const Home: FunctionComponent<HomeProps> = (props): JSX.Element => {
+   const goTo = (signature: string) => () => {
+      props.navigation.navigate('Gallery', {url: signature })
+   }
    return (
-      <>
-         <Text>Screen Home</Text>
-      </>
+      <Canvas
+         callback={goTo}
+      />
    )
 }
 
