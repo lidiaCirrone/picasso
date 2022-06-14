@@ -161,13 +161,14 @@ const Canvas = (props: any) => {
       myGallery?.push(objCapture)
       setLocalStorageObj('images', myGallery)()
 
-      props.callback(capture)();
       setState({
          ...state,
          saveModalVisible: false,
          signature: '',
          urlImg: undefined
       })
+      props.callback();
+
    }
 
    // function to open camera 
@@ -201,7 +202,7 @@ const Canvas = (props: any) => {
       let obj = Object.assign({}, state)
       obj.libraryPermission = permission;
 
-      let ratio = (Dimensions.get('screen').height-140) / Dimensions.get('screen').width;
+      let ratio = (Dimensions.get('screen').height - 140) / Dimensions.get('screen').width;
 
       if (permission) {
          let result = await ImagePicker.launchImageLibraryAsync({
@@ -223,7 +224,7 @@ const Canvas = (props: any) => {
             let ratio = result.height / result.width;
             let newHeight = Dimensions.get('screen').height - 140;
             let newWidth = newHeight / ratio;
-            
+
             console.log('new width', newWidth);
             console.log('new height', newHeight);
 
