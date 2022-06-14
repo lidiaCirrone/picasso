@@ -136,7 +136,6 @@ const Canvas = (props: any) => {
 
    // function to save 
    const save = () => {
-      console.log("end");
       ref.current?.readSignature();
    };
 
@@ -182,10 +181,16 @@ const Canvas = (props: any) => {
       }
       const photo = await camera.takePictureAsync(option);
 
+      let ratio = photo.height / photo.width;
+      let newHeight = Dimensions.get('screen').height / 6 * 4;
+      let newWidth = newHeight / ratio;
+
       setState({
          ...state,
          isCameraOpen: false,
          urlImg: `data:image/jpg;base64,${photo.base64}`,
+         widthImg: newWidth,
+         heightImg: newHeight
       })
    }
    const selectPhotoFromGallery = async () => {
@@ -193,7 +198,7 @@ const Canvas = (props: any) => {
       let obj = Object.assign({}, state)
       obj.libraryPermission = permission;
 
-      let ratio = (Dimensions.get('screen').height-140) / Dimensions.get('screen').width;
+      let ratio = (Dimensions.get('screen').height / 6 * 4) / Dimensions.get('screen').width;
 
       if (permission) {
          let result = await ImagePicker.launchImageLibraryAsync({
@@ -206,18 +211,9 @@ const Canvas = (props: any) => {
 
          if (!result.cancelled) {
 
-            // console.log(result);
-            console.log('width', result.width);
-            console.log('height', result.height);
-            console.log('screen width', Dimensions.get('screen').width);
-            console.log('screen height', Dimensions.get('screen').height);
-
             let ratio = result.height / result.width;
-            let newHeight = Dimensions.get('screen').height - 140;
+            let newHeight = Dimensions.get('screen').height / 6 * 4;
             let newWidth = newHeight / ratio;
-            
-            console.log('new width', newWidth);
-            console.log('new height', newHeight);
 
             obj.urlImg = `data:image/png;base64,${result.base64}`;
             obj.widthImg = newWidth;
@@ -232,187 +228,197 @@ const Canvas = (props: any) => {
    if (!state.isCameraOpen)
 
       return (
+         <>
+            <View style={styleCanvas.container}>
 
-         <View style={styleCanvas.container}>
+               {/* top editor  */}
+               <View style={styleCanvas.row}>
 
-            {/* top editor  */}
-            <View style={styleCanvas.row}>
+                  <TouchableOpacity onPress={undo}>
+                     <MaterialCommunityIcons style={styleCanvas.icons} name="undo" />
+                  </TouchableOpacity>
 
-               <TouchableOpacity onPress={undo}>
-                  <MaterialCommunityIcons style={styleCanvas.icons} name="undo" />
-               </TouchableOpacity>
+                  <TouchableOpacity onPress={redo}>
+                     <MaterialCommunityIcons style={styleCanvas.icons} name="redo" />
+                  </TouchableOpacity>
 
-               <TouchableOpacity onPress={redo}>
-                  <MaterialCommunityIcons style={styleCanvas.icons} name="redo" />
-               </TouchableOpacity>
+                  <TouchableOpacity onPress={selectPhotoFromGallery}>
+                     <MaterialIcons style={styleCanvas.icons} name="photo-library" />
+                  </TouchableOpacity>
 
-               <TouchableOpacity onPress={selectPhotoFromGallery}>
-                  <MaterialIcons style={styleCanvas.icons} name="photo-library" />
-               </TouchableOpacity>
+                  <TouchableOpacity onPress={openCamera}>
+                     <MaterialCommunityIcons style={styleCanvas.icons} name="camera" />
+                  </TouchableOpacity>
 
-               <TouchableOpacity onPress={openCamera}>
-                  <MaterialCommunityIcons style={styleCanvas.icons} name="camera" />
-               </TouchableOpacity>
+                  <TouchableOpacity onPress={save}>
+                     <MaterialCommunityIcons style={styleCanvas.icons} name="content-save" />
+                  </TouchableOpacity>
 
-               <TouchableOpacity onPress={save}>
-                  <MaterialCommunityIcons style={styleCanvas.icons} name="content-save" />
-               </TouchableOpacity>
+               </View>
 
-            </View>
+               {/* if signature is not saved and finished */}
+               {!state.signature ?
+                  <View style={{
+                     width: Dimensions.get('screen').width,
+                     height: Dimensions.get('screen').height / 6 * 4
+                  }}>
 
-            {/* if signature is not saved and finished */}
-            {!state.signature ?
-               <>
-                  {
-                     state.urlImg &&
-                     <SignatureScreen
-                        ref={ref}
-                        webStyle={styleCssCanvas.styleDraw + `
-
+                     {
+                        state.urlImg &&
+                        <SignatureScreen
+                           ref={ref}
+                           webStyle={styleCssCanvas.styleDraw + `
                         .m-signature-pad--body img {
                             left: -${(state.widthImg - Dimensions.get('screen').width) / 2}px!important;
-                        }`}
-                        onOK={handleOK}
-                        bgSrc={state.urlImg}
-                        bgWidth={state.widthImg}
-                        bgHeight={state.heightImg}
+                           }`}
+                           onOK={handleOK}
+                           bgSrc={state.urlImg}
+                           bgWidth={state.widthImg}
+                           bgHeight={state.heightImg}
+                        />
+                     }
 
-                     />
-                  }
+                     {
+                        !state.urlImg &&
+                        <SignatureScreen
+                           ref={ref}
+                           webStyle={styleCssCanvas.styleDraw}
+                           onOK={handleOK}
+                        />
+                     }
+                  </View>
 
-                  {
-                     !state.urlImg &&
-                     <SignatureScreen
-                        ref={ref}
-                        webStyle={styleCssCanvas.styleDraw}
-                        onOK={handleOK}
-                     />
-                  }
-               </>
+                  :
 
-
-               :
-
-               <>
-                  <View ref={canvasRef} style={{ flex: 1, backgroundColor: 'white' }} collapsable={false}>
+                  <View ref={canvasRef} style={{
+                     backgroundColor: 'white',
+                     width: Dimensions.get('screen').width,
+                     height: Dimensions.get('screen').height / 6 * 4
+                  }}
+                  >
                      {
                         state.urlImg ?
                            <ImageBackground
                               style={{
-                                 height: state.heightImg,
-                                 width: state.widthImg
+                                 width: Dimensions.get('screen').width,
+                                 height: Dimensions.get('screen').height / 6 * 4,
                               }}
                               source={{ uri: state.urlImg }}
+                              resizeMode={'cover'}
                            >
                               <Image
                                  style={styleCanvas.drawing}
                                  source={{ uri: state.signature }}
+                                 width={Dimensions.get('screen').width}
+                                 height={Dimensions.get('screen').height / 6 * 4}
 
                               />
                            </ImageBackground> :
                            <Image
                               style={styleCanvas.drawing}
                               source={{ uri: state.signature }}
+                              width={Dimensions.get('screen').width}
+                              height={Dimensions.get('screen').height / 6 * 4}
 
                            />
                      }
-
                   </View>
 
-                  <Modal
-                     animationType="slide"
-                     transparent={true}
-                     visible={state.saveModalVisible}
-                     onRequestClose={() => {
-                        setState({ ...state, saveModalVisible: !state.saveModalVisible });
-                     }}>
-                     <View style={styleModal.modalView}>
-                        <Text style={styleModal.modalText}>Choice where</Text>
-                        <View style={{ flexDirection: 'row', justifyContent: 'space-around', alignItems: 'center', width: '100%' }}>
-                           <TouchableOpacity
-                              style={{ borderColor: '#007AFF', borderWidth: 2, padding: 8, borderRadius: 6 }}
-                              onPress={saveCapture}>
-                              <Text style={styleModal.textStyle}>save photo</Text>
-                           </TouchableOpacity>
-                           <TouchableOpacity
-                              style={{ borderColor: '#007AFF', borderWidth: 2, padding: 8, borderRadius: 6 }}
-                              onPress={saveCapture}>
-                              <Text style={styleModal.textStyle}>save photo</Text>
-                           </TouchableOpacity>
-                        </View>
-                     </View>
-                  </Modal>
-
-               </>
-            }
+               }
 
 
 
-            {//editor size pen
-               state.editSize &&
-               <View style={[styleCanvas.row, styleCanvas.editContainer]}>
-                  <Slider
-                     value={state.sizePen}
-                     style={{ width: 200, height: 40 }}
-                     minimumValue={1}
-                     maximumValue={50}
-                     step={1}
-                     minimumTrackTintColor="blue"
-                     maximumTrackTintColor="#000000"
-                     onValueChange={changeSize}
-                  />
+               {//editor size pen
+                  state.editSize &&
+                  <View style={[styleCanvas.row, styleCanvas.editContainer]}>
+                     <Slider
+                        value={state.sizePen}
+                        style={{ width: 200, height: 40 }}
+                        minimumValue={1}
+                        maximumValue={50}
+                        step={1}
+                        minimumTrackTintColor="blue"
+                        maximumTrackTintColor="#000000"
+                        onValueChange={changeSize}
+                     />
+
+                     <TouchableOpacity onPress={handleEditSize}>
+                        <Ionicons style={{ color: 'blue', fontSize: 40 }} name="checkmark-done" />
+                     </TouchableOpacity>
+                  </View>
+               }
+
+               { // editor change color
+                  state.editColor &&
+                  <View
+                     style={styleCanvas.editColor}
+                  >
+                     <ColorPicker
+                        ref={refColor}
+                        onColorChangeComplete={onColorChange}
+                        thumbSize={20}
+                        sliderSize={20}
+                        noSnap={false}
+                        row={false}
+                     />
+                  </View>
+               }
+
+               {/* bottom editor  */}
+               <View style={styleCanvas.row}>
+
+                  <TouchableOpacity onPress={handleClear}>
+                     <MaterialCommunityIcons style={styleCanvas.icons} name="trash-can" />
+                  </TouchableOpacity>
+
+                  <TouchableOpacity onPress={erase}>
+                     <MaterialCommunityIcons
+                        style={[styleCanvas.icons, !state.isDrawing ? styleCanvas.iconsSelected : styleCanvas.icons]}
+                        name="eraser" />
+                  </TouchableOpacity>
+
+                  <TouchableOpacity onPress={handleSignature}>
+                     <MaterialCommunityIcons
+                        style={[styleCanvas.icons, state.isDrawing ? styleCanvas.iconsSelected : styleCanvas.icons]}
+                        name="pencil" />
+                  </TouchableOpacity>
+
+                  <TouchableOpacity onPress={handleEditColor}>
+                     <MaterialCommunityIcons style={styleCanvas.icons} name="palette" />
+                  </TouchableOpacity>
 
                   <TouchableOpacity onPress={handleEditSize}>
-                     <Ionicons style={{ color: 'blue', fontSize: 40 }} name="checkmark-done" />
+                     <Ionicons style={styleCanvas.icons} name="options" />
                   </TouchableOpacity>
+
                </View>
-            }
-
-            { // editor change color
-               state.editColor &&
-               <View
-                  style={styleCanvas.editColor}
-               >
-                  <ColorPicker
-                     ref={refColor}
-                     onColorChangeComplete={onColorChange}
-                     thumbSize={20}
-                     sliderSize={20}
-                     noSnap={false}
-                     row={false}
-                  />
-               </View>
-            }
-
-            {/* bottom editor  */}
-            <View style={styleCanvas.row}>
-
-               <TouchableOpacity onPress={handleClear}>
-                  <MaterialCommunityIcons style={styleCanvas.icons} name="trash-can" />
-               </TouchableOpacity>
-
-               <TouchableOpacity onPress={erase}>
-                  <MaterialCommunityIcons
-                     style={[styleCanvas.icons, !state.isDrawing ? styleCanvas.iconsSelected : styleCanvas.icons]}
-                     name="eraser" />
-               </TouchableOpacity>
-
-               <TouchableOpacity onPress={handleSignature}>
-                  <MaterialCommunityIcons
-                     style={[styleCanvas.icons, state.isDrawing ? styleCanvas.iconsSelected : styleCanvas.icons]}
-                     name="pencil" />
-               </TouchableOpacity>
-
-               <TouchableOpacity onPress={handleEditColor}>
-                  <MaterialCommunityIcons style={styleCanvas.icons} name="palette" />
-               </TouchableOpacity>
-
-               <TouchableOpacity onPress={handleEditSize}>
-                  <Ionicons style={styleCanvas.icons} name="options" />
-               </TouchableOpacity>
-
             </View>
-         </View>
+
+
+            <Modal
+               animationType="slide"
+               transparent={true}
+               visible={state.saveModalVisible}
+               onRequestClose={() => {
+                  setState({ ...state, saveModalVisible: !state.saveModalVisible });
+               }}>
+               <View style={styleModal.modalView}>
+                  <Text style={styleModal.modalText}>Choice where</Text>
+                  <View style={{ flexDirection: 'row', justifyContent: 'space-around', alignItems: 'center', width: '100%' }}>
+                     <TouchableOpacity
+                        style={{ borderColor: '#007AFF', borderWidth: 2, padding: 8, borderRadius: 6 }}
+                        onPress={saveCapture}>
+                        <Text style={styleModal.textStyle}>save photo</Text>
+                     </TouchableOpacity>
+                     <TouchableOpacity
+                        style={{ borderColor: '#007AFF', borderWidth: 2, padding: 8, borderRadius: 6 }}
+                        onPress={saveCapture}>
+                        <Text style={styleModal.textStyle}>save photo</Text>
+                     </TouchableOpacity>
+                  </View>
+               </View>
+            </Modal>
+         </>
       );
    else {
       return (

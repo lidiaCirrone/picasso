@@ -6,10 +6,11 @@ const styleCanvas = StyleSheet.create({
       width: Dimensions.get('screen').width,
    },
    row: {
+      flex: 1,
       flexDirection: "row",
       justifyContent: "space-around",
       alignItems: "center",
-      height: 70,
+      height: Dimensions.get('screen').height / 6,
       backgroundColor: 'black'
    },
    editColor: {
@@ -29,22 +30,20 @@ const styleCanvas = StyleSheet.create({
       fontSize: 30
    },
    drawing: {
-      width: '100%',
-      height: '100%'
+      width: Dimensions.get('screen').width,
+      height: Dimensions.get('screen').height / 6 * 4,
    }
 
 })
 
 const styleCssCanvas = {
    styleDraw: `
-  body,html {
+   body, html {
       width: 100%;
       height: 100%;
    }
-
-  .m-signature-pad {
-      /* position: absolute;
-      font-size: 10px; */
+   
+   .m-signature-pad {
       width: 100%;
       height: 100%;
       top: 0;
@@ -54,22 +53,23 @@ const styleCssCanvas = {
       border: 0;
       background-color: #fff;
       box-shadow: 0;
- }
-
-  .m-signature-pad--body {
+   }
+   
+   .m-signature-pad--body {
       width: 100%;
       height: 100%;
-      /* position: absolute; */
       left: 0;
       right: 0;
       top: 0;
       bottom: 0;
       border: 0;
-  }
- 
-  .m-signature-pad--footer {display: none; margin: 0px;} 
+   }
+   
+   .m-signature-pad--footer {
+      display: none;
+      margin: 0px;
+   }
  `
-
 }
 
 export { styleCanvas, styleCssCanvas }
