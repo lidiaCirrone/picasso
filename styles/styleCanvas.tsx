@@ -37,13 +37,14 @@ const styleCanvas = StyleSheet.create({
 const styleCssCanvas = {
    styleDraw: `
   .m-signature-pad {
-    position:absolute;
+      flex:1
+    
   }
  
   .m-signature-pad--footer {display: none; margin: 0px;} 
 
   body,html {
-   width: ${Dimensions.get('screen').width}px; height: ${Dimensions.get('screen').height}px;}
+   width: 100%; height: 100%}
  `
 
 }
