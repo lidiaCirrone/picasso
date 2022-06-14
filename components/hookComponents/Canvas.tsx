@@ -207,13 +207,13 @@ const Canvas = (props: any) => {
       let obj = Object.assign({}, state)
       obj.libraryPermission = permission;
 
-      let ratio = (Dimensions.get('screen').height / 6 * 4) / Dimensions.get('screen').width;
+      // let ratio = (Dimensions.get('screen').height / 6 * 4) / Dimensions.get('screen').width;
 
       if (permission) {
          let result = await ImagePicker.launchImageLibraryAsync({
-            mediaTypes: ImagePicker.MediaTypeOptions.All,
-            allowsEditing: true,
-            aspect: [1, ratio],
+            mediaTypes: ImagePicker.MediaTypeOptions.Images,
+            // allowsEditing: true,
+            // aspect: [1, ratio],
             base64: true,
             quality: 0.5,
          });
@@ -223,7 +223,6 @@ const Canvas = (props: any) => {
             let ratio = result.height / result.width;
             let newHeight = Dimensions.get('screen').height / 6 * 4;
             let newWidth = newHeight / ratio;
-
             obj.urlImg = `data:image/png;base64,${result.base64}`;
             obj.widthImg = newWidth;
             obj.heightImg = newHeight;
