@@ -22,12 +22,10 @@ const styleModal = StyleSheet.create({
         },
         shadowOpacity: 0.25,
         shadowRadius: 4,
-        elevation: 5,
     },
     button: {
         borderRadius: 20,
         padding: 10,
-        elevation: 2,
     },
     buttonOpen: {
         backgroundColor: '#F194FF',

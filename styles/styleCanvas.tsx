@@ -29,7 +29,8 @@ const styleCanvas = StyleSheet.create({
       fontSize: 30
    },
    drawing: {
-      width: Dimensions.get('screen').width, height: 300
+      width: '100%',
+      height: '100%'
    }
 
 })

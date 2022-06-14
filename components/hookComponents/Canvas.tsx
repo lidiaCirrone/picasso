@@ -2,8 +2,7 @@ import React, { useRef, useState } from "react";
 
 // components 
 import { captureRef } from "react-native-view-shot";
-import { Dimensions, Image, ImageBackground, Modal, StyleSheet, Text, View } from "react-native";
-import { TouchableOpacity } from "react-native-gesture-handler";
+import { Dimensions, Image, ImageBackground, Modal, Text, View, TouchableOpacity } from "react-native";
 import SignatureScreen, { SignatureViewRef } from "react-native-signature-canvas";
 import Slider from '@react-native-community/slider';
 import Ionicons from '@expo/vector-icons/Ionicons';
@@ -18,7 +17,7 @@ import styleModal from '../../styles/styleModal';
 import styleCamera from '../../styles/styleCamera'
 
 // utils permission
-import { _requestCameraPermission,_requestLibraryPermission } from '../../utils/permissions';
+import { _requestCameraPermission, _requestLibraryPermission } from '../../utils/permissions';
 
 interface State {
    editSize: boolean,
@@ -148,6 +147,7 @@ const Canvas = (props: any) => {
 
    // function to take a screenshot 
    const saveCapture = async () => {
+      console.log('click sul bottone');
       let capture = await captureRef(canvasRef.current);
       props.callback(capture)();
       setState({
@@ -191,7 +191,7 @@ const Canvas = (props: any) => {
       if (permission) {
          let result = await ImagePicker.launchImageLibraryAsync({
             mediaTypes: ImagePicker.MediaTypeOptions.All,
-            allowsEditing: true,
+            allowsEditing: false,
             // aspect: [4, 3],
             base64: true,
             quality: 0.5,
@@ -272,7 +272,7 @@ const Canvas = (props: any) => {
                      {
                         state.urlImg ?
                            <ImageBackground
-                              style={{ height: '100%', width: Dimensions.get('screen').width }}
+                              style={{ height: '100%', width: '100%' }}
                               source={{ uri: state.urlImg }}
                            >
                               <Image
@@ -288,39 +288,31 @@ const Canvas = (props: any) => {
                            />
                      }
 
-                     <View style={styleModal.centeredView}>
-                        <Modal
-                           animationType="slide"
-                           transparent={true}
-                           visible={state.saveModalVisible}
-                           onRequestClose={() => {
-                              setState({ ...state, saveModalVisible: !state.saveModalVisible });
-                           }}>
-                           <View style={styleModal.modalView}>
-                              <Text style={styleModal.modalText}>Choice where</Text>
-                              <View style={{ flexDirection: 'row', justifyContent: 'space-around', alignItems: 'center', width: '100%' }}>
-                                 <TouchableOpacity
-                                    style={{ borderColor: '#007AFF', borderWidth: 2, padding: 8, borderRadius: 6 }}
-                                    onPress={saveCapture}>
-                                    <Text style={styleModal.textStyle}>save photo</Text>
-                                 </TouchableOpacity>
-
-                                 <TouchableOpacity
-                                    style={{ borderColor: '#007AFF', borderWidth: 2, padding: 8, borderRadius: 6 }}
-                                    onPress={saveCapture}>
-                                    <Text style={styleModal.textStyle}>save photo</Text>
-                                 </TouchableOpacity>
-                              </View>
-
-                           </View>
-                        </Modal>
-                     </View>
-
                   </View>
 
-
-
-
+                  <Modal
+                     animationType="slide"
+                     transparent={true}
+                     visible={state.saveModalVisible}
+                     onRequestClose={() => {
+                        setState({ ...state, saveModalVisible: !state.saveModalVisible });
+                     }}>
+                     <View style={styleModal.modalView}>
+                        <Text style={styleModal.modalText}>Choice where</Text>
+                        <View style={{ flexDirection: 'row', justifyContent: 'space-around', alignItems: 'center', width: '100%' }}>
+                           <TouchableOpacity
+                              style={{ borderColor: '#007AFF', borderWidth: 2, padding: 8, borderRadius: 6 }}
+                              onPress={saveCapture}>
+                              <Text style={styleModal.textStyle}>save photo</Text>
+                           </TouchableOpacity>
+                           <TouchableOpacity
+                              style={{ borderColor: '#007AFF', borderWidth: 2, padding: 8, borderRadius: 6 }}
+                              onPress={saveCapture}>
+                              <Text style={styleModal.textStyle}>save photo</Text>
+                           </TouchableOpacity>
+                        </View>
+                     </View>
+                  </Modal>
 
                </>
             }
