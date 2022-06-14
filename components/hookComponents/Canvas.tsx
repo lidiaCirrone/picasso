@@ -24,6 +24,8 @@ interface State {
    editColor: boolean,
    sizePen: number,
    urlImg: undefined | string,
+   widthImg: number | undefined,
+   heightImg: number | undefined,
    isDrawing: boolean,
    signature: string,
    saveModalVisible: boolean,
@@ -37,6 +39,8 @@ const initialState: State = {
    editColor: false,
    sizePen: 1,
    urlImg: undefined,
+   widthImg: undefined,
+   heightImg: undefined,
    isDrawing: true,
    signature: '',
    saveModalVisible: false,
@@ -188,20 +192,38 @@ const Canvas = (props: any) => {
       let permission = await _requestLibraryPermission()
       let obj = Object.assign({}, state)
       obj.libraryPermission = permission;
+
+      let ratio = (Dimensions.get('screen').height-140) / Dimensions.get('screen').width;
+
       if (permission) {
          let result = await ImagePicker.launchImageLibraryAsync({
             mediaTypes: ImagePicker.MediaTypeOptions.All,
-            allowsEditing: false,
-            // aspect: [4, 3],
+            allowsEditing: true,
+            aspect: [1, ratio],
             base64: true,
             quality: 0.5,
          });
 
-         console.log(result);
-
          if (!result.cancelled) {
-            obj.urlImg = `data:image/png;base64,${result.base64}`
+
+            // console.log(result);
+            console.log('width', result.width);
+            console.log('height', result.height);
+            console.log('screen width', Dimensions.get('screen').width);
+            console.log('screen height', Dimensions.get('screen').height);
+
+            let ratio = result.height / result.width;
+            let newHeight = Dimensions.get('screen').height - 140;
+            let newWidth = newHeight / ratio;
+            
+            console.log('new width', newWidth);
+            console.log('new height', newHeight);
+
+            obj.urlImg = `data:image/png;base64,${result.base64}`;
+            obj.widthImg = newWidth;
+            obj.heightImg = newHeight;
          }
+
       }
       setState(obj)
 
@@ -245,11 +267,15 @@ const Canvas = (props: any) => {
                      state.urlImg &&
                      <SignatureScreen
                         ref={ref}
-                        webStyle={styleCssCanvas.styleDraw}
+                        webStyle={styleCssCanvas.styleDraw + `
+
+                        .m-signature-pad--body img {
+                            left: -${(state.widthImg - Dimensions.get('screen').width) / 2}px!important;
+                        }`}
                         onOK={handleOK}
                         bgSrc={state.urlImg}
-                        bgWidth={Dimensions.get('screen').width}
-                        bgHeight={'100%'}
+                        bgWidth={state.widthImg}
+                        bgHeight={state.heightImg}
 
                      />
                   }
@@ -272,7 +298,10 @@ const Canvas = (props: any) => {
                      {
                         state.urlImg ?
                            <ImageBackground
-                              style={{ height: '100%', width: '100%' }}
+                              style={{
+                                 height: state.heightImg,
+                                 width: state.widthImg
+                              }}
                               source={{ uri: state.urlImg }}
                            >
                               <Image
