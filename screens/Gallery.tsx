@@ -1,10 +1,12 @@
-import { FunctionComponent, ReactNode, useEffect, useState } from 'react';
+import { FunctionComponent, useEffect, useState } from 'react';
 
 // components
 import { FlatList, Image, TouchableOpacity, View } from 'react-native';
 import { getObjFromLocalStorage, setLocalStorageObj } from '../utils/localStorage';
 
 
+// Style 
+import styleGallery from '../styles/styleGallery';
 
 const Gallery: FunctionComponent = (): JSX.Element => {
    const [state, setState] = useState({
@@ -27,9 +29,8 @@ const Gallery: FunctionComponent = (): JSX.Element => {
          <TouchableOpacity onLongPress={renderSelectedImage(item)}>
             <Image
                resizeMode="contain"
-               // key={key}
                source={{ uri: item.item.url }}
-               style={{ width: 100, height: 200, margin: 10 }}
+               style={styleGallery.imageGallery}
             />
          </TouchableOpacity>
 
@@ -43,16 +44,15 @@ const Gallery: FunctionComponent = (): JSX.Element => {
       setState(obj)
    }
    return (
-      <>
+      <View style={styleGallery.container}>
          <FlatList
-            // contentContainerStyle={{ justifyContent: 'space-between' }}
             horizontal={false}
             numColumns={3}
             data={state?.images}
-            style={{ padding: 10 }}
+            style={styleGallery.flatlist}
             renderItem={renderImages}>
          </FlatList>
-      </>
+      </View>
    )
 }
 
