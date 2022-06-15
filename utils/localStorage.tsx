@@ -15,7 +15,6 @@ const setLocalStorageObj = (nameObj: string, obj: Array<object>|boolean) => asyn
         const jsonValue = JSON.stringify(obj)
         await AsyncStorage.setItem(nameObj, jsonValue)
     } catch (e) {
-        console.log(e)
     }
 }
 

@@ -17,7 +17,6 @@ const Gallery: FunctionComponent = (): JSX.Element => {
    }, [])
    const getImg = async () => {
       let myImages = await getObjFromLocalStorage('images')()
-      console.log('heeeey', myImages)
       setState({
          ...state,
          images: myImages
