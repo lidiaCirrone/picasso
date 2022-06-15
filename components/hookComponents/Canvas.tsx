@@ -59,6 +59,8 @@ const initialState: State = {
 
 
 let camera: Camera | null;
+let widthImgCss = styleCssCanvas.styleDraw;
+
 
 const Canvas = (props: any) => {
    const ref = useRef<SignatureViewRef>(null);
@@ -226,12 +228,27 @@ const Canvas = (props: any) => {
             obj.urlImg = `data:image/png;base64,${result.base64}`;
             obj.widthImg = newWidth;
             obj.heightImg = newHeight;
+
+            if (newWidth > Dimensions.get('screen').width) {
+               widthImgCss = widthImgCss + `
+               .m-signature-pad--body img {
+                   left: -${(newWidth - Dimensions.get('screen').width) / 2}px!important;
+                  }`
+            } else {
+               widthImgCss = widthImgCss + `
+               .m-signature-pad--body img {
+                   left: ${(Dimensions.get('screen').width - newWidth) / 2}px!important;
+                  }`
+            }
          }
 
       }
       setState(obj)
 
    }
+
+
+
    // if camera is not open 
    if (!state.isCameraOpen)
 
@@ -275,10 +292,7 @@ const Canvas = (props: any) => {
                         (state.urlImg && state.widthImg) &&
                         <SignatureScreen
                            ref={ref}
-                           webStyle={styleCssCanvas.styleDraw + `
-                        .m-signature-pad--body img {
-                            left: -${(state.widthImg - Dimensions.get('screen').width) / 2}px!important;
-                           }`}
+                           webStyle={widthImgCss}
                            onOK={handleOK}
                            bgSrc={state.urlImg}
                            bgWidth={state.widthImg}
@@ -305,14 +319,14 @@ const Canvas = (props: any) => {
                   }}
                   >
                      {
-                        state.urlImg ?
+                        (state.urlImg && state.widthImg) ?
                            <ImageBackground
                               style={{
                                  width: Dimensions.get('screen').width,
                                  height: Dimensions.get('screen').height / 6 * 4,
                               }}
                               source={{ uri: state.urlImg }}
-                              resizeMode={'cover'}
+                              resizeMode={state.widthImg > Dimensions.get('screen').width ? 'cover' : 'contain'}
                            >
                               <Image
                                  style={styleCanvas.drawing}
