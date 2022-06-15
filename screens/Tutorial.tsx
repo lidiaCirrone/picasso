@@ -2,20 +2,24 @@ import { FunctionComponent } from 'react';
 
 // components
 import SliderTutorial from '../components/hookComponents/SliderTutorial';
+import { Text, TouchableOpacity, View } from 'react-native';
 
 // utils
 import { tutorialInfo } from '../utils/tutorialInfo';
-
-import { ParamListBase, RouteProp } from '@react-navigation/native';
-import { Text, TouchableOpacity, View } from 'react-native';
-
 import { setLocalStorageObj } from '../utils/localStorage'
+
+
+import { StackNavigationProp } from '@react-navigation/stack';
+import { ParamListBase } from '@react-navigation/native';
+
+
 interface TutorialProps {
-    route: RouteProp<ParamListBase>;
+    navigation: StackNavigationProp<ParamListBase>;
 }
-const Tutorial: FunctionComponent<TutorialProps> = (): JSX.Element => {
+const Tutorial: FunctionComponent<TutorialProps> = (props): JSX.Element => {
     const okTutorial = () => {
         setLocalStorageObj('tutorial', true)()
+        props.navigation.navigate('Start')
     }
     return (
         <>
