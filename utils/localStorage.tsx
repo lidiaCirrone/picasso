@@ -10,7 +10,7 @@ const getObjFromLocalStorage = (nameObject: string) => async () => {
 }
 
 
-const setLocalStorageObj = (nameObj: string, obj: any) => async () => {
+const setLocalStorageObj = (nameObj: string, obj: object) => async () => {
     try {
         const jsonValue = JSON.stringify(obj)
         await AsyncStorage.setItem(nameObj, jsonValue)
