@@ -10,6 +10,7 @@ import ColorPicker from 'react-native-wheel-color-picker';
 import { MaterialCommunityIcons, MaterialIcons } from '@expo/vector-icons';
 import { Camera, CameraType } from "expo-camera";
 import * as ImagePicker from 'expo-image-picker';
+import * as MediaLibrary from 'expo-media-library';
 
 // style 
 import { styleCanvas, styleCssCanvas } from "../../styles/styleCanvas";
@@ -36,6 +37,7 @@ interface State {
    isCameraOpen: boolean,
    type: CameraType,
    libraryPermission: boolean,
+   heightSignature: number
 }
 const initialState: State = {
    editSize: false,
@@ -51,6 +53,7 @@ const initialState: State = {
    isCameraOpen: false,
    type: CameraType.back,
    libraryPermission: false,
+   heightSignature: Dimensions.get('screen').height / 6 * 4
 }
 
 
@@ -89,11 +92,17 @@ const Canvas = (props: any) => {
 
    // function to handle editSize 
    const handleEditSize = () => {
-      setState({
-         ...state,
-         editSize: !state.editSize,
-         editColor: false
-      })
+      let copyState = Object.assign({}, state)
+      if (!state.editSize) {
+         copyState.editSize = true,
+            copyState.editColor = false,
+            copyState.heightSignature = Dimensions.get('screen').height / 6 * 3
+      } else {
+         copyState.editSize = false,
+            copyState.editColor = false,
+            copyState.heightSignature = Dimensions.get('screen').height / 6 * 4
+      }
+      setState(copyState)
    }
 
    // function to change color of pen 
@@ -103,11 +112,17 @@ const Canvas = (props: any) => {
 
    // function to handle edit color 
    const handleEditColor = () => {
-      setState({
-         ...state,
-         editSize: false,
-         editColor: !state.editColor
-      })
+      let copyState = Object.assign({}, state)
+      if (!state.editColor) {
+         copyState.editSize = false,
+            copyState.editColor = true,
+            copyState.heightSignature = Dimensions.get('screen').height / 6 * 1
+      } else {
+         copyState.editSize = false,
+            copyState.editColor = false,
+            copyState.heightSignature = Dimensions.get('screen').height / 6 * 4
+      }
+      setState(copyState)
    }
 
    // function to eraser
@@ -153,7 +168,7 @@ const Canvas = (props: any) => {
    };
 
    // function to take a screenshot 
-   const saveCapture = async () => {
+   const saveCapture = (whereWeWillSave: string) => async () => {
       let capture = await captureRef(canvasRef.current);
       let myGallery: Array<object> = await getObjFromLocalStorage('images')()
       let objCapture = {
@@ -161,13 +176,15 @@ const Canvas = (props: any) => {
       }
       myGallery?.push(objCapture)
       setLocalStorageObj('images', myGallery)()
-
       setState({
          ...state,
          saveModalVisible: false,
          signature: '',
          urlImg: undefined
       })
+      if (whereWeWillSave === 'all') {
+         const asset = await MediaLibrary.createAssetAsync(capture);
+      }
       props.callback();
 
    }
@@ -204,18 +221,17 @@ const Canvas = (props: any) => {
          heightImg: newHeight
       })
    }
+
+   // function to select photo from gallery 
    const selectPhotoFromGallery = async () => {
       let permission = await _requestLibraryPermission()
       let obj = Object.assign({}, state)
-      obj.libraryPermission = permission;
 
-      // let ratio = (Dimensions.get('screen').height / 6 * 4) / Dimensions.get('screen').width;
+      obj.libraryPermission = permission;
 
       if (permission) {
          let result = await ImagePicker.launchImageLibraryAsync({
             mediaTypes: ImagePicker.MediaTypeOptions.Images,
-            // allowsEditing: true,
-            // aspect: [1, ratio],
             base64: true,
             quality: 0.5,
          });
@@ -246,8 +262,6 @@ const Canvas = (props: any) => {
       setState(obj)
 
    }
-
-
 
    // if camera is not open 
    if (!state.isCameraOpen)
@@ -285,7 +299,7 @@ const Canvas = (props: any) => {
                {!state.signature ?
                   <View style={{
                      width: Dimensions.get('screen').width,
-                     height: Dimensions.get('screen').height / 6 * 4
+                     height: state.heightSignature
                   }}>
 
                      {
@@ -352,10 +366,10 @@ const Canvas = (props: any) => {
 
                {//editor size pen
                   state.editSize &&
-                  <View style={[styleCanvas.row, styleCanvas.editContainer]}>
+                  <View style={styleCanvas.editSize}>
                      <Slider
                         value={state.sizePen}
-                        style={{ width: 200, height: 40 }}
+                        style={{ width: 200 }}
                         minimumValue={1}
                         maximumValue={50}
                         step={1}
@@ -429,13 +443,13 @@ const Canvas = (props: any) => {
                   <View style={{ flexDirection: 'row', justifyContent: 'space-around', alignItems: 'center', width: '100%' }}>
                      <TouchableOpacity
                         style={{ borderColor: '#007AFF', borderWidth: 2, padding: 8, borderRadius: 6 }}
-                        onPress={saveCapture}>
-                        <Text style={styleModal.textStyle}>save photo</Text>
+                        onPress={saveCapture('')}>
+                        <Text style={styleModal.textStyle}>Save in App</Text>
                      </TouchableOpacity>
                      <TouchableOpacity
                         style={{ borderColor: '#007AFF', borderWidth: 2, padding: 8, borderRadius: 6 }}
-                        onPress={saveCapture}>
-                        <Text style={styleModal.textStyle}>save photo</Text>
+                        onPress={saveCapture('all')}>
+                        <Text style={styleModal.textStyle}>Save in App and Device</Text>
                      </TouchableOpacity>
                   </View>
                </View>
