@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native';
-
+ 
 const styleCamera = StyleSheet.create({
     camera: {
         flex: 8, // TO-DO: check if suits iOS
