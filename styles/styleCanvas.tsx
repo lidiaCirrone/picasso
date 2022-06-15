@@ -20,16 +20,23 @@ const styleCanvas = StyleSheet.create({
    editSize: {
       height: Dimensions.get('screen').height / 6 * 1,
       backgroundColor: '#efefef',
-      flexDirection : 'row',
-      alignItems : 'center',
-      justifyContent : 'space-around'
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'space-around'
+   },
+   editSizeSlider: {
+      width: 200
+   },
+   editSizeIcon: {
+      color: '#007AFF',
+      fontSize: 40
    },
    icons: {
       color: '#007AFF',
       fontSize: 30
    },
    iconsSelected: {
-      color: '#fff',
+      color: '#999',
       fontSize: 30
    },
    drawing: {

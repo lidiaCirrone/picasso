@@ -267,7 +267,20 @@ const Canvas = (props: any) => {
 
       }
       setState(obj)
+   }
 
+   const switchCameraType = (): void => {
+      setState({
+         ...state,
+         type: state.type === CameraType.back ? CameraType.front : CameraType.back
+      });
+   }
+
+   const toggleModal = (): void => {
+      setState({
+         ...state,
+         saveModalVisible: !state.saveModalVisible
+      })
    }
 
    // if camera is not open 
@@ -334,7 +347,7 @@ const Canvas = (props: any) => {
                   :
 
                   <View ref={canvasRef} style={{
-                     backgroundColor: 'white',
+                     backgroundColor: '#000',
                      width: Dimensions.get('screen').width,
                      height: Dimensions.get('screen').height / 6 * 4
                   }}
@@ -342,10 +355,7 @@ const Canvas = (props: any) => {
                      {
                         (state.urlImg && state.widthImg) ?
                            <ImageBackground
-                              style={{
-                                 width: Dimensions.get('screen').width,
-                                 height: Dimensions.get('screen').height / 6 * 4,
-                              }}
+                              style={styleCanvas.drawing}
                               source={{ uri: state.urlImg }}
                               resizeMode={state.widthImg > Dimensions.get('screen').width ? 'cover' : 'contain'}
                            >
@@ -376,17 +386,18 @@ const Canvas = (props: any) => {
                   <View style={styleCanvas.editSize}>
                      <Slider
                         value={state.sizePen}
-                        style={{ width: 200 }}
+                        style={styleCanvas.editSizeSlider}
                         minimumValue={1}
                         maximumValue={50}
                         step={1}
-                        minimumTrackTintColor="blue"
+                        minimumTrackTintColor="#666666"
                         maximumTrackTintColor="#000000"
+                        thumbTintColor="#007AFF"
                         onValueChange={changeSize}
                      />
 
                      <TouchableOpacity onPress={handleEditSize}>
-                        <Ionicons style={{ color: 'blue', fontSize: 40 }} name="checkmark-done" />
+                        <Ionicons style={styleCanvas.editSizeIcon} name="checkmark-done" />
                      </TouchableOpacity>
                   </View>
                }
@@ -442,21 +453,19 @@ const Canvas = (props: any) => {
                animationType="slide"
                transparent={true}
                visible={state.saveModalVisible}
-               onRequestClose={() => {
-                  setState({ ...state, saveModalVisible: !state.saveModalVisible });
-               }}>
+               onRequestClose={toggleModal}>
                <View style={styleModal.modalView}>
-                  <Text style={styleModal.modalText}>Choice where</Text>
-                  <View style={{ flexDirection: 'row', justifyContent: 'space-around', alignItems: 'center', width: '100%' }}>
+                  <View style={styleModal.modalInnerContainer}>
+                     <Text style={styleModal.modalText}>Choose where you would like to save your picture</Text>
                      <TouchableOpacity
-                        style={{ borderColor: '#007AFF', borderWidth: 2, padding: 8, borderRadius: 6 }}
+                        style={styleModal.button}
                         onPress={saveCapture('')}>
                         <Text style={styleModal.textStyle}>Save in App</Text>
                      </TouchableOpacity>
                      <TouchableOpacity
-                        style={{ borderColor: '#007AFF', borderWidth: 2, padding: 8, borderRadius: 6 }}
+                        style={styleModal.button}
                         onPress={saveCapture('all')}>
-                        <Text style={styleModal.textStyle}>Save in App and Device</Text>
+                        <Text style={styleModal.textStyle}>Save in both App and Device</Text>
                      </TouchableOpacity>
                   </View>
                </View>
@@ -471,12 +480,7 @@ const Canvas = (props: any) => {
                <View style={styleCamera.buttonContainer}>
                   <TouchableOpacity
                      style={styleCamera.buttonCamera}
-                     onPress={() => {
-                        setState({
-                           ...state,
-                           type: state.type === CameraType.back ? CameraType.front : CameraType.back
-                        });
-                     }}>
+                     onPress={switchCameraType}>
                      <Text style={styleCamera.text}> Flip </Text>
                   </TouchableOpacity>
 
