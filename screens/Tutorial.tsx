@@ -4,6 +4,9 @@ import { FunctionComponent } from 'react';
 import SliderTutorial from '../components/hookComponents/SliderTutorial';
 import { Text, TouchableOpacity, View } from 'react-native';
 
+// style 
+import styleTutorial from '../styles/styleSliderTutorial'
+
 // utils
 import { tutorialInfo } from '../utils/tutorialInfo';
 import { setLocalStorageObj } from '../utils/localStorage'
@@ -23,11 +26,11 @@ const Tutorial: FunctionComponent<TutorialProps> = (props): JSX.Element => {
     }
     return (
         <>
-            <View style={{ backgroundColor: '#007AFF', flex: 1 }}>
+            <View style={styleTutorial.containerTutorial}>
                 <SliderTutorial sliderArray={tutorialInfo} />
                 <View style={{ marginVertical: 20 }}>
                     <TouchableOpacity onPress={okTutorial}>
-                        <Text style={{ textAlign: 'center', fontWeight: 'bold' }}>I'm ready !</Text>
+                        <Text style={styleTutorial.text}>I'm ready !</Text>
                     </TouchableOpacity>
                 </View>
 

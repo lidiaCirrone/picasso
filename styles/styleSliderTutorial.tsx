@@ -2,12 +2,14 @@ import { StyleSheet, Dimensions } from "react-native";
 
 export default StyleSheet.create(
     {
+        containerTutorial: {
+            backgroundColor: '#007AFF', flex: 1
+        },
         container: {
-            height: Dimensions.get('screen').height / 2 - 140,
             backgroundColor: '#3F36C1',
         },
         viewPager: {
-            flex: 1,
+            height: '100%',
         },
         page: {
             justifyContent: 'space-between',
@@ -15,7 +17,7 @@ export default StyleSheet.create(
         },
         containerActiveSlide: {
             flexDirection: 'row',
-            marginBottom: 10
+            marginVertical: 10
         },
         activeSlide: {
             width: 20,
@@ -30,6 +32,9 @@ export default StyleSheet.create(
         imgSlideContainer: {
             flex: 1
         },
+        text: {
+            textAlign: 'center', fontWeight: 'bold', color: '#fff'
+        }
 
     }
 )
