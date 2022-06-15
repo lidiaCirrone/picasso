@@ -14,12 +14,15 @@ const styleCanvas = StyleSheet.create({
       backgroundColor: 'black'
    },
    editColor: {
-      flex: 1,
+      height: Dimensions.get('screen').height / 6 * 3,
       padding: 20,
-      marginBottom: 20
    },
-   editContainer: {
-      backgroundColor: '#efefef'
+   editSize: {
+      height: Dimensions.get('screen').height / 6 * 1,
+      backgroundColor: '#efefef',
+      flexDirection : 'row',
+      alignItems : 'center',
+      justifyContent : 'space-around'
    },
    icons: {
       color: '#007AFF',
