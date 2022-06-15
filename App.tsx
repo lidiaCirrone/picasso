@@ -10,7 +10,7 @@ import styleApp from './styles/styleApp';
 export default function App() {
   return (
     <SafeAreaView style={styleApp.container}>
-      <StatusBar style="auto" />
+      <StatusBar style="dark" />
       <EntryApp />
     </SafeAreaView>
   );

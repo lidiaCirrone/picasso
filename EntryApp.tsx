@@ -23,6 +23,18 @@ interface State {
 const initialState: State = {
    tutorialWatched: null
 }
+let optionsStyle =
+{
+   title: 'Picasso',
+   headerStyle: {
+      backgroundColor: '#000',
+   },
+   headerTintColor: '#007AFF',
+   headerTitleStyle: {
+      fontWeight: 'bold',
+      fontSize: 24,
+   }
+}
 
 const EntryApp: FunctionComponent = () => {
    const Stack = createStackNavigator();
@@ -56,18 +68,70 @@ const EntryApp: FunctionComponent = () => {
                      <Stack.Screen
                         name='Start'
                         component={Start}
+                        options={
+                           {
+                              title: 'Picasso',
+                              headerStyle: {
+                                 backgroundColor: '#fff',
+                              },
+                              headerTintColor: '#007AFF',
+                              headerTitleStyle: {
+                                 fontWeight: 'bold',
+                                 fontSize: 24,
+                              }
+                           }
+                        }
                      />
                      <Stack.Screen
                         name='Home'
                         component={Home}
+                        options={
+                           {
+                              title: 'My Artwork',
+                              headerStyle: {
+                                 backgroundColor: '#fff',
+                              },
+                              headerTintColor: '#007AFF',
+                              headerTitleStyle: {
+                                 fontWeight: 'bold',
+                                 fontSize: 24,
+                              }
+                           }
+                        }
                      />
                      <Stack.Screen
                         name='Tutorial'
                         component={Tutorial}
+                        options={
+                           {
+                              title: 'Tutorial',
+                              headerStyle: {
+                                 backgroundColor: '#fff',
+                              },
+                              headerTintColor: '#007AFF',
+                              headerTitleStyle: {
+                                 fontWeight: 'bold',
+                                 fontSize: 24,
+                              }
+                           }
+                        }
                      />
                      <Stack.Screen
                         name='Gallery'
                         component={Gallery}
+                        options={
+                           {
+                              title: 'Gallery',
+                              headerStyle: {
+                                 backgroundColor: '#fff',
+                              },
+                              headerTintColor: '#007AFF',
+                              headerTitleStyle: {
+                                 fontWeight: 'bold',
+                                 fontSize: 24,
+                              }
+                           }
+                        }
                      />
                   </Stack.Navigator>
                </NavigationContainer>
