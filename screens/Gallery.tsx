@@ -2,13 +2,11 @@ import { FunctionComponent, ReactNode, useEffect, useState } from 'react';
 
 // components
 import { FlatList, Image, TouchableOpacity, View } from 'react-native';
-import { ParamListBase, RouteProp } from '@react-navigation/native';
 import { getObjFromLocalStorage, setLocalStorageObj } from '../utils/localStorage';
-interface GalleryProps {
-   route: RouteProp<ParamListBase>;
-}
 
-const Gallery: FunctionComponent<GalleryProps> = (props): JSX.Element => {
+
+
+const Gallery: FunctionComponent = (): JSX.Element => {
    const [state, setState] = useState({
       images: []
    })
@@ -23,13 +21,15 @@ const Gallery: FunctionComponent<GalleryProps> = (props): JSX.Element => {
          images: myImages
       })
    }
-   const renderImages = (item: { index: number; item: { url: string } }, key: number): ReactNode => {
+
+   const renderImages = (item: { index: number; item: { url: string } }) => {
       return (
          <TouchableOpacity onLongPress={renderSelectedImage(item)}>
             <Image
-               key={key}
+               resizeMode="contain"
+               // key={key}
                source={{ uri: item.item.url }}
-               style={{ width: 100, height: 100, margin: 10 }}
+               style={{ width: 100, height: 200, margin: 10 }}
             />
          </TouchableOpacity>
 
@@ -45,7 +45,8 @@ const Gallery: FunctionComponent<GalleryProps> = (props): JSX.Element => {
    return (
       <>
          <FlatList
-            columnWrapperStyle={{ flexWrap: 'wrap' }}
+            // contentContainerStyle={{ justifyContent: 'space-between' }}
+            horizontal={false}
             numColumns={3}
             data={state?.images}
             style={{ padding: 10 }}
