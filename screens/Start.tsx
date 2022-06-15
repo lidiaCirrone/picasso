@@ -1,8 +1,12 @@
 import React, { FunctionComponent } from "react";
+
+// components 
 import { Text, TouchableOpacity, View } from "react-native";
 import { ParamListBase } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
 
+// style 
+import styleStart from '../styles/styleStart'
 interface StartProps {
     navigation: StackNavigationProp<ParamListBase>;
 }
@@ -12,17 +16,17 @@ const Start: FunctionComponent<StartProps> = (props): JSX.Element => {
         props.navigation.navigate(path)
     }
     return (
-        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: '#007AFF' }}>
-            <TouchableOpacity style={{ marginVertical: 20, paddingVertical: 10, minWidth: 100, backgroundColor: '#fff', borderRadius: 10 }} onPress={goTo('Gallery')}>
-                <Text style={{ color: '#007AFF', fontWeight: 'bold', textAlign: 'center' }}>Gallery</Text>
+        <View style={styleStart.container}>
+            <TouchableOpacity style={styleStart.btn} onPress={goTo('Gallery')}>
+                <Text style={styleStart.textBtn}>Gallery</Text>
             </TouchableOpacity>
 
-            <TouchableOpacity style={{ marginVertical: 20, paddingVertical: 10, minWidth: 100, backgroundColor: '#fff', borderRadius: 10 }} onPress={goTo('Home')}>
-                <Text style={{ color: '#007AFF', fontWeight: 'bold', textAlign: 'center' }}>New File</Text>
+            <TouchableOpacity style={styleStart.btn} onPress={goTo('Home')}>
+                <Text style={styleStart.textBtn}>New File</Text>
             </TouchableOpacity>
 
-            <TouchableOpacity style={{ marginVertical: 20, paddingVertical: 10, minWidth: 100, backgroundColor: '#fff', borderRadius: 10 }} onPress={goTo('Tutorial')}>
-                <Text style={{ color: '#007AFF', fontWeight: 'bold', textAlign: 'center' }}>Tutorial</Text>
+            <TouchableOpacity style={styleStart.btn} onPress={goTo('Tutorial')}>
+                <Text style={styleStart.textBtn}>Tutorial</Text>
             </TouchableOpacity>
         </View>
     )
