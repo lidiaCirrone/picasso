@@ -155,7 +155,7 @@ const Canvas = (props: any) => {
    // function to take a screenshot 
    const saveCapture = async () => {
       let capture = await captureRef(canvasRef.current);
-      let myGallery: any = await getObjFromLocalStorage('images')()
+      let myGallery: Array<object> = await getObjFromLocalStorage('images')()
       let objCapture = {
          url: capture
       }
