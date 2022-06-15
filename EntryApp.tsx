@@ -72,7 +72,7 @@ const EntryApp: FunctionComponent = () => {
                            {
                               title: 'Picasso',
                               headerStyle: {
-                                 backgroundColor: '#fff',
+                                 backgroundColor: '#000',
                               },
                               headerTintColor: '#007AFF',
                               headerTitleStyle: {
@@ -89,7 +89,7 @@ const EntryApp: FunctionComponent = () => {
                            {
                               title: 'My Artwork',
                               headerStyle: {
-                                 backgroundColor: '#fff',
+                                 backgroundColor: '#000',
                               },
                               headerTintColor: '#007AFF',
                               headerTitleStyle: {
@@ -106,7 +106,7 @@ const EntryApp: FunctionComponent = () => {
                            {
                               title: 'Tutorial',
                               headerStyle: {
-                                 backgroundColor: '#fff',
+                                 backgroundColor: '#000',
                               },
                               headerTintColor: '#007AFF',
                               headerTitleStyle: {
@@ -123,7 +123,7 @@ const EntryApp: FunctionComponent = () => {
                            {
                               title: 'Gallery',
                               headerStyle: {
-                                 backgroundColor: '#fff',
+                                 backgroundColor: '#000',
                               },
                               headerTintColor: '#007AFF',
                               headerTitleStyle: {

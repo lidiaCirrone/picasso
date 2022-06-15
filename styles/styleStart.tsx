@@ -1,19 +1,30 @@
-import { StyleSheet } from 'react-native';
+import { Dimensions, StyleSheet } from 'react-native';
 
 export default StyleSheet.create(
    {
+      imgBg: {
+         flex: 1
+      },
       container: {
-         flex: 1,
-         justifyContent: 'center',
+
+         flexDirection: "row",
+         justifyContent: 'space-around',
          alignItems: 'center',
-         backgroundColor: '#007AFF'
+         backgroundColor: '#000',
+         borderBottomWidth : 1,
+         borderTopWidth:1,
+         borderBottomColor : '#fff',
+         borderTopColor : '#fff',
       },
       btn: {
-         marginVertical: 20,
-         paddingVertical: 10,
-         minWidth: 100,
-         backgroundColor: '#fff',
-         borderRadius: 10
+         marginVertical:20,
+         width: Dimensions.get('screen').width / 3,
+         backgroundColor: '#000',
+      },
+      centralBtn: {
+         borderWidth: 2,
+         borderRightColor: '#fff',
+         borderLeftColor: '#fff'
       },
       textBtn: {
          color: '#007AFF',

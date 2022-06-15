@@ -1,7 +1,7 @@
 import React, { FunctionComponent } from "react";
 
 // components 
-import { Text, TouchableOpacity, View } from "react-native";
+import { ImageBackground, Text, TouchableOpacity, View } from "react-native";
 import { ParamListBase } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
 
@@ -16,19 +16,27 @@ const Start: FunctionComponent<StartProps> = (props): JSX.Element => {
         props.navigation.navigate(path)
     }
     return (
-        <View style={styleStart.container}>
-            <TouchableOpacity style={styleStart.btn} onPress={goTo('Gallery')}>
-                <Text style={styleStart.textBtn}>Gallery</Text>
-            </TouchableOpacity>
+        <ImageBackground
+            style={styleStart.imgBg}
+            source={{ uri: 'http://images.fineartamerica.com/images-medium-large-5/pablo-picasso-the-blue-period-tracey-harrington-simpson.jpg' }}
+            resizeMode="cover"
+        >
+            <View
+                style={styleStart.container}
+            >
+                <TouchableOpacity style={styleStart.btn} onPress={goTo('Gallery')}>
+                    <Text style={styleStart.textBtn}>Gallery</Text>
+                </TouchableOpacity>
 
-            <TouchableOpacity style={styleStart.btn} onPress={goTo('Home')}>
-                <Text style={styleStart.textBtn}>New File</Text>
-            </TouchableOpacity>
+                <TouchableOpacity style={[styleStart.btn, styleStart.centralBtn]} onPress={goTo('Home')}>
+                    <Text style={styleStart.textBtn}>New File</Text>
+                </TouchableOpacity>
 
-            <TouchableOpacity style={styleStart.btn} onPress={goTo('Tutorial')}>
-                <Text style={styleStart.textBtn}>Tutorial</Text>
-            </TouchableOpacity>
-        </View>
+                <TouchableOpacity style={styleStart.btn} onPress={goTo('Tutorial')}>
+                    <Text style={styleStart.textBtn}>Tutorial</Text>
+                </TouchableOpacity>
+            </View>
+        </ImageBackground>
     )
 }
 
