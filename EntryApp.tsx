@@ -14,48 +14,66 @@ import { getObjFromLocalStorage } from './utils/localStorage';
 
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { ActivityIndicator, View } from 'react-native';
 
+interface State {
+   tutorialWatched: null | string
+}
+
+const initialState: State = {
+   tutorialWatched: null
+}
 
 const EntryApp: FunctionComponent = () => {
    const Stack = createStackNavigator();
-   // const [state, setState] = useState({
-   //    tutorialWatched: 'Tutorial'
-   // })
-   // useEffect(() => {
-   //    isTutorialWatched()
-   // }, [state.tutorialWatched])
-   // const isTutorialWatched = async (): Promise<void> => {
-   //    let tutorial = await getObjFromLocalStorage('tutorial')()
-   //    console.log(tutorial)
-   //    if (tutorial)
-   //       setState({
-   //          ...state,
-   //          tutorialWatched: 'Start'
-   //       })
-   // }
+   const [state, setState] = useState<State>(initialState)
+   useEffect(() => {
+      isTutorialWatched()
+   }, [])
+
+   // function to set initial route 
+   const isTutorialWatched = async (): Promise<void> => {
+      let tutorial = await getObjFromLocalStorage('tutorial')()
+      let copyState = Object.assign({}, state)
+      if (tutorial === true) {
+         copyState.tutorialWatched = 'Start'
+      } else {
+         copyState.tutorialWatched = 'Tutorial'
+      }
+      setState(copyState)
+   }
    return (
-      <NavigationContainer>
-         <Stack.Navigator
-            initialRouteName={'Start'} // storage.firstAccess ? 'Tutorial' : 'Home'
-         >
-            <Stack.Screen
-               name='Start'
-               component={Start}
-            />
-            <Stack.Screen
-               name='Home'
-               component={Home}
-            />
-            <Stack.Screen
-               name='Tutorial'
-               component={Tutorial}
-            />
-            <Stack.Screen
-               name='Gallery'
-               component={Gallery}
-            />
-         </Stack.Navigator>
-      </NavigationContainer>
+      <>
+         {
+            state.tutorialWatched === null ?
+               <View style={{ flex: 1, backgroundColor: '#007AFF', justifyContent: 'center', alignItems: 'center' }}>
+                  <ActivityIndicator></ActivityIndicator>
+               </View> :
+               <NavigationContainer>
+                  <Stack.Navigator
+                     initialRouteName={state.tutorialWatched} // storage.firstAccess ? 'Tutorial' : 'Home'
+                  >
+                     <Stack.Screen
+                        name='Start'
+                        component={Start}
+                     />
+                     <Stack.Screen
+                        name='Home'
+                        component={Home}
+                     />
+                     <Stack.Screen
+                        name='Tutorial'
+                        component={Tutorial}
+                     />
+                     <Stack.Screen
+                        name='Gallery'
+                        component={Gallery}
+                     />
+                  </Stack.Navigator>
+               </NavigationContainer>
+         }
+      </>
+
    )
 
 
