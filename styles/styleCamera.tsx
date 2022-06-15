@@ -1,8 +1,9 @@
-import { StyleSheet } from 'react-native';
+import { Dimensions, StyleSheet } from 'react-native';
 
 const styleCamera = StyleSheet.create({
     camera: {
-        flex: 8, // TO-DO: check if suits iOS
+        flex: 6, // TO-DO: check if suits iOS
+        width: Dimensions.get('screen').width,
     },
     buttonContainer: {
         flex: 1,
