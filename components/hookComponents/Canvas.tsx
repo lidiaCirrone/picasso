@@ -79,6 +79,13 @@ const Canvas = (props: any) => {
    // function to clear all file 
    const handleClear = () => {
       ref.current?.clearSignature();
+      setState({
+         ...state,
+         signature: '',
+         urlImg: undefined,
+         widthImg: undefined,
+         heightImg: undefined,
+      })
    };
 
    // function to change size of pen 
