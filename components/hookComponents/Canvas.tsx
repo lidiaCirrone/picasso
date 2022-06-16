@@ -37,7 +37,8 @@ interface State {
    isCameraOpen: boolean,
    type: CameraType,
    libraryPermission: boolean,
-   heightSignature: number
+   heightSignature: number,
+   disabledSelection: boolean
 }
 const initialState: State = {
    editSize: false,
@@ -53,7 +54,8 @@ const initialState: State = {
    isCameraOpen: false,
    type: CameraType.back,
    libraryPermission: false,
-   heightSignature: Dimensions.get('screen').height / 6 * 4
+   heightSignature: Dimensions.get('screen').height / 6 * 4,
+   disabledSelection: false
 }
 
 
@@ -85,6 +87,7 @@ const Canvas = (props: any) => {
          urlImg: undefined,
          widthImg: undefined,
          heightImg: undefined,
+         disabledSelection: false
       })
    };
 
@@ -170,7 +173,8 @@ const Canvas = (props: any) => {
       setState({
          ...state,
          signature: signature,
-         saveModalVisible: true
+         saveModalVisible: true,
+         disabledSelection: false
       })
    };
 
@@ -225,7 +229,8 @@ const Canvas = (props: any) => {
          isCameraOpen: false,
          urlImg: `data:image/jpg;base64,${photo.base64}`,
          widthImg: newWidth,
-         heightImg: newHeight
+         heightImg: newHeight,
+         disabledSelection: true
       })
    }
 
@@ -263,6 +268,8 @@ const Canvas = (props: any) => {
                    left: ${(Dimensions.get('screen').width - newWidth) / 2}px!important;
                   }`
             }
+
+            obj.disabledSelection = true;
          }
 
       }
@@ -301,9 +308,13 @@ const Canvas = (props: any) => {
                      <MaterialCommunityIcons style={styleCanvas.icons} name="redo" />
                   </TouchableOpacity>
 
-                  <TouchableOpacity onPress={selectPhotoFromGallery}>
-                     <MaterialIcons style={styleCanvas.icons} name="photo-library" />
-                  </TouchableOpacity>
+                  {state.disabledSelection ?
+                     <MaterialIcons style={styleCanvas.iconsDisabled} name="photo-library" />
+                     :
+                     <TouchableOpacity onPress={selectPhotoFromGallery}>
+                        <MaterialIcons style={styleCanvas.icons} name="photo-library" />
+                     </TouchableOpacity>
+                  }
 
                   <TouchableOpacity onPress={openCamera}>
                      <MaterialCommunityIcons style={styleCanvas.icons} name="camera" />
