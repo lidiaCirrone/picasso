@@ -36,7 +36,7 @@ const styleCanvas = StyleSheet.create({
       fontSize: 30
    },
    iconsSelected: {
-      color: '#999',
+      color: '#fff',
       fontSize: 30
    },
    drawing: {
