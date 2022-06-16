@@ -57,17 +57,11 @@ const initialState: State = {
    libraryPermission: false,
    heightSignature: Dimensions.get('screen').height / 6 * 4,
    disabledSelection: false,
-   currentColor: '#000000'
+   currentColor: 'black'
 }
-
-
-
-
-
 
 let camera: Camera | null;
 let widthImgCss = styleCssCanvas.styleDraw;
-
 
 const Canvas = (props: any) => {
    const ref = useRef<SignatureViewRef>(null);
@@ -75,10 +69,7 @@ const Canvas = (props: any) => {
    const refColor: any = useRef();
    // to make screenshot with bg image 
    const canvasRef: any = useRef();
-
-
-   const [state, setState] = useState<State>(initialState)
-
+   const [state, setState] = useState<State>(initialState);
 
    // function to clear all file 
    const handleClear = () => {
@@ -344,6 +335,7 @@ const Canvas = (props: any) => {
                         <SignatureScreen
                            ref={ref}
                            webStyle={widthImgCss}
+                           penColor={state.currentColor}
                            onOK={handleOK}
                            bgSrc={state.urlImg}
                            bgWidth={state.widthImg}
@@ -364,7 +356,7 @@ const Canvas = (props: any) => {
                   :
 
                   <View ref={canvasRef} style={{
-                     backgroundColor: '#000',
+                     backgroundColor: '#fff',
                      width: Dimensions.get('screen').width,
                      height: Dimensions.get('screen').height / 6 * 4
                   }}
@@ -427,6 +419,7 @@ const Canvas = (props: any) => {
                      <ColorPicker
                         color={state.currentColor}
                         ref={refColor}
+                        onColorChange={onColorChange}
                         onColorChangeComplete={onColorChange}
                         thumbSize={20}
                         sliderSize={20}
