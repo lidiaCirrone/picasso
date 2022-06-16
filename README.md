@@ -6,7 +6,7 @@ A drawing app built in React Native that allows the user to sketch over a blank 
 
 ## Screenshots 📷
 
-![ScreenShot](src/assets/screenshots/01.jpg) ![ScreenShot](src/assets/screenshots/02.jpg) ![ScreenShot](src/assets/screenshots/03.jpg) ![ScreenShot](src/assets/screenshots/04.jpg)
+![ScreenShot](assets/screenshots/01.jpg) ![ScreenShot](assets/screenshots/02.jpg) ![ScreenShot](assets/screenshots/03.jpg) ![ScreenShot](assets/screenshots/04.jpg)
 
 ## Technologies Used ⚛️ 
 
