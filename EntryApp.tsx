@@ -23,18 +23,7 @@ interface State {
 const initialState: State = {
    tutorialWatched: null
 }
-let optionsStyle =
-{
-   title: 'Picasso',
-   headerStyle: {
-      backgroundColor: '#000',
-   },
-   headerTintColor: '#007AFF',
-   headerTitleStyle: {
-      fontWeight: 'bold',
-      fontSize: 24,
-   }
-}
+
 
 const EntryApp: FunctionComponent = () => {
    const Stack = createStackNavigator();
