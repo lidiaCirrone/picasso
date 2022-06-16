@@ -16,9 +16,6 @@ A drawing app built in React Native that allows the user to sketch over a blank 
 - [expo-image-picker](https://docs.expo.dev/versions/v45.0.0/sdk/imagepicker/)
 - [@react-native-async-storage/async-storage](https://docs.expo.dev/versions/v45.0.0/sdk/async-storage/)
 - [@react-navigation](https://reactnavigation.org/)
-   - @react-navigation/native
-   - @react-navigation/stack
-   - @react-navigation/bottom-tabs
 - [react-native-gesture-handler](https://docs.expo.dev/versions/latest/sdk/gesture-handler/)
 - [react-native-reanimated](https://docs.expo.dev/versions/latest/sdk/reanimated/)
 - [react-native-screens](https://docs.expo.dev/versions/v45.0.0/sdk/screens/)
