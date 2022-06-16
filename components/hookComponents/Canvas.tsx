@@ -64,11 +64,15 @@ let camera: Camera | null;
 let widthImgCss = styleCssCanvas.styleDraw;
 
 const Canvas = (props: any) => {
+
    const ref = useRef<SignatureViewRef>(null);
+
    // ref to change color 
    const refColor: any = useRef();
+
    // to make screenshot with bg image 
    const canvasRef: any = useRef();
+
    const [state, setState] = useState<State>(initialState);
 
    // function to clear all file 
@@ -121,13 +125,13 @@ const Canvas = (props: any) => {
    const handleEditColor = () => {
       let copyState = Object.assign({}, state)
       if (!state.editColor) {
-         copyState.editSize = false,
-            copyState.editColor = true,
-            copyState.heightSignature = Dimensions.get('screen').height / 6 * 1
+         copyState.editSize = false;
+         copyState.editColor = true;
+         copyState.heightSignature = Dimensions.get('screen').height / 6 * 1;
       } else {
-         copyState.editSize = false,
-            copyState.editColor = false,
-            copyState.heightSignature = Dimensions.get('screen').height / 6 * 4
+         copyState.editSize = false;
+         copyState.editColor = false;
+         copyState.heightSignature = Dimensions.get('screen').height / 6 * 4;
       }
       setState(copyState)
    }
@@ -177,13 +181,19 @@ const Canvas = (props: any) => {
 
    // function to take a screenshot 
    const saveCapture = (whereWeWillSave: string) => async () => {
+      // screenshot 
       let capture = await captureRef(canvasRef.current);
+
+      // take image from localStorage 
       let myGallery: Array<object> = await getObjFromLocalStorage('images')()
       let objCapture = {
          url: capture
       }
+      // push screenshot in our gallery of photo 
       myGallery?.push(objCapture)
+      // set again localStorage 
       setLocalStorageObj('images', myGallery)()
+
       setState({
          ...state,
          saveModalVisible: false,
@@ -193,6 +203,8 @@ const Canvas = (props: any) => {
       if (whereWeWillSave === 'all') {
          const asset = await MediaLibrary.createAssetAsync(capture);
       }
+
+      //go to gallery
       props.callback();
 
    }
