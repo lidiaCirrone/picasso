@@ -1,7 +1,7 @@
 import { FunctionComponent, ReactNode } from 'react';
 
 // native/expo components
-import { View, Image } from 'react-native';
+import { View, Image, Dimensions } from 'react-native';
 import PagerView from 'react-native-pager-view';
 
 // styles
@@ -21,7 +21,7 @@ const SliderTutorial: FunctionComponent<Props> = ({ sliderArray }) => {
             <View style={styleSliderTutorial.imgSlideContainer}>
                <Image
                   resizeMode={'contain'}
-                  style={{ height: '100%' }}
+                  style={styleSliderTutorial.imgSlide}
                   source={item.urlImg}
                />
             </View>
@@ -31,6 +31,7 @@ const SliderTutorial: FunctionComponent<Props> = ({ sliderArray }) => {
                <View style={[styleSliderTutorial.activeSlide, key === 0 ? styleSliderTutorial.now : null]}></View>
                <View style={[styleSliderTutorial.activeSlide, key === 1 ? styleSliderTutorial.now : null]}></View>
                <View style={[styleSliderTutorial.activeSlide, key === 2 ? styleSliderTutorial.now : null]}></View>
+               <View style={[styleSliderTutorial.activeSlide, key === 3 ? styleSliderTutorial.now : null]}></View>
             </View>
          </View>
       )

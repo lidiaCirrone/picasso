@@ -36,8 +36,13 @@ const styleCanvas = StyleSheet.create({
       fontSize: 30
    },
    iconsSelected: {
-      color: '#999',
+      color: '#fff',
       fontSize: 30
+   },
+   iconsDisabled: {
+      color: '#007AFF',
+      fontSize: 30,
+      opacity: .5
    },
    drawing: {
       width: Dimensions.get('screen').width,

@@ -18,7 +18,7 @@ const Start: FunctionComponent<StartProps> = (props): JSX.Element => {
     return (
         <ImageBackground
             style={styleStart.imgBg}
-            source={{ uri: 'http://images.fineartamerica.com/images-medium-large-5/pablo-picasso-the-blue-period-tracey-harrington-simpson.jpg' }}
+            source={require('../assets/background.png')}
             resizeMode="cover"
         >
             <View
