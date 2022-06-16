@@ -38,7 +38,8 @@ interface State {
    type: CameraType,
    libraryPermission: boolean,
    heightSignature: number,
-   disabledSelection: boolean
+   disabledSelection: boolean,
+   currentColor: string
 }
 const initialState: State = {
    editSize: false,
@@ -55,7 +56,8 @@ const initialState: State = {
    type: CameraType.back,
    libraryPermission: false,
    heightSignature: Dimensions.get('screen').height / 6 * 4,
-   disabledSelection: false
+   disabledSelection: false,
+   currentColor: '#000000'
 }
 
 
@@ -117,7 +119,11 @@ const Canvas = (props: any) => {
 
    // function to change color of pen 
    const onColorChange = (value: string) => {
-      ref.current?.changePenColor(value)
+      ref.current?.changePenColor(value);
+      setState({
+         ...state,
+         currentColor: value
+      })
    }
 
    // function to handle edit color 
@@ -419,6 +425,7 @@ const Canvas = (props: any) => {
                      style={styleCanvas.editColor}
                   >
                      <ColorPicker
+                        color={state.currentColor}
                         ref={refColor}
                         onColorChangeComplete={onColorChange}
                         thumbSize={20}
